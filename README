@@ -1,0 +1,43 @@
+% This script enables the user to establish  UDP communications with another
+% application, either on the same or a remote machine. The same script can
+% also be used to exchange data between two separate instantiations of
+% Matlab on the same or remote machine.  
+%
+% udp_socket('SEND',PORT,HOST,MSSG) sends a message to the specified port and
+% host. HOST can be either a hostname (e.g., 'www.example.com') or a string
+% representation of an IP address (e.g., '10.0.0.55'). Port is an
+% integer port number between 1025 and 65535. The specified port must be
+% open in the receiving machine's firewall.
+% 
+% MSSG = udp_socket('RECEIVE',PORT,PKTLGNTH) receives a message over the
+% specified port. PKTLGNTH should be set to the maximum expected
+% message length to be received in the UDP packet; if too small, the
+% message will be truncated.
+%
+% MSSG = udp_socket('RECEIVE',PORT,PKTLGNTH,TIMEOUT) attempts to receive a
+% message but times out after TIMEOUT milliseconds. If TIMEOUT is not
+% specified, as in the previous example, a default value of
+% 5000 milliseconds is used.
+%
+% [MSSG,SOURCEHOST] = udp_socket('RECEIVE',...) returns a string representation
+% of the originating host's IP address, in addition to the received
+% message. 
+%
+% Messages sent by udp_socket.m are in int8 format. The int8.m function can be
+% used to convert integers or characters to the correct format (use
+% double.m or char.m to convert back after the datagram is received). 
+% Non-integer values can be converted to int8 format using typecast.m (use
+% typecast.m to convert back).
+% 
+% e.g.,   mssg = udp_socket('receive',9570,10); char(mssg')
+%         udp_socket('send',9570,'10.0.0.23',int8('Hello World!'))         
+%
+% e.g.,   [mssg,sourceHost] = udp_socket('receive',9750,10,5000)
+%         udp_socket('send',9750,'www.example.com',int8([1 2 3 4]))
+%         
+% e.g.,   mssg = udp_socket('receive',9750,200); typecast(mssg,'double')
+%         udp_socket('send',9750,'localhost',typecast([1.1 2.2 3.3],'int8'))
+
+% Developed in Matlab 7.13.0.564 (R2011b) on OSX 10.7.
+% Yash Mulgaonkar (yashm@seas.upenn.edu), January 15, 2012
+%-------------------------------------------------------------------------
